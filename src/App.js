@@ -1,46 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-
-// We can access the index because it is passed as a prop from App
-
-// Have to pass the completeTodo fn from app to Todo
-
-function Todo({ todo, index, completeTodo, removeTodo }) {
-  return (
-    <div
-      className="todo"
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
-    >
-      {todo.text}
-      <div>
-        <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>x</button>
-      </div>
-    </div>
-  );
-}
-
-function TodoForm({ addTodo }) {
-  const [value, setValue] = useState("");
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (!value) return;
-    addTodo(value);
-    setValue("");
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="input"
-        value={value}
-        onChange={e => setValue(e.target.value)}
-      />
-    </form>
-  );
-}
+import Todo from "./Todo";
+import TodoForm from "./TodoForm";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -61,16 +22,22 @@ function App() {
   };
 
   const removeTodo = index => {
-    const newTodos = [...todos]
+    const newTodos = [...todos];
     newTodos.splice(index, 1);
     setTodos(newTodos);
   };
 
   return (
-    <div className="App">
+    <div className="app">
       <div className="todo=list">
         {todos.map((todo, index) => (
-          <Todo key={index} index={index} todo={todo} completeTodo={completeTodo} removeTodo={removeTodo}/>
+          <Todo
+            key={index}
+            index={index}
+            todo={todo}
+            completeTodo={completeTodo}
+            removeTodo={removeTodo}
+          />
         ))}
         <TodoForm addTodo={addTodo} />
       </div>
